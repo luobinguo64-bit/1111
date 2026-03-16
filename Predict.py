@@ -25,10 +25,10 @@ PLT = st.sidebar.number_input("Platelet Count (PLT, ×10^9/mL):", min_value=30, 
 # Create a DataFrame for SHAP and prediction
 input_dict = {
     "AFP": [AFP],
-    "Tumor Size": [Tumor_diameter],
+    "Tumor_diameter": [Tumor_diameter],
     "MVI": [MVI],
     "ALBI": [ALBI],
-    "Liver cirrhosis": [Liver_cirrhosis],
+    "Liver_cirrhosis": [Liver_cirrhosis],
     "PLT": [PLT]
 }
 input_df = pd.DataFrame(input_dict)
@@ -64,6 +64,11 @@ if st.button("Make Prediction"):
     # SHAP 解释
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
+
+        shap_display_df = input_df.rename(columns={
+        "Liver_cirrhosis": "Liver cirrhosis",
+        "Tumor_diameter": "Tumor size"
+    })
 
     # 绘制 force_plot
     plt.figure(figsize=(14, 30), dpi=1000)  # 增大竖向高度
