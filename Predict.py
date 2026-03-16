@@ -48,7 +48,7 @@ st.markdown(
     }
     div.stNumberInput, div.stSelectbox {
         margin-top: 2px;     /* 控件上方间距 */
-        margin-bottom: 8px;  /* 控件下方间距 */
+        margin-bottom: 6px;  /* 控件下方间距 */
     }
     </style>
     """,
