@@ -58,16 +58,22 @@ if st.button("Make Prediction"):
         )
 
     # SHAP 解释（只在点击时执行）
-    import shap
-from streamlit.components.v1 import html
+    import matplotlib.pyplot as plt
+import shap
 
-shap.initjs()
+# 设置全局字体
+plt.rcParams["font.family"] = "Source Serif"
+plt.rcParams["font.size"] = 14           # 图中文字大小
+plt.rcParams["xtick.labelsize"] = 12     # x轴刻度字体大小
+plt.rcParams["ytick.labelsize"] = 12     # y轴刻度字体大小
 
-force_plot = shap.force_plot(
+# 绘图
+plt.figure(figsize=(12, 6))
+shap.force_plot(
     explainer.expected_value,
     shap_values[0],
-    input_df.iloc[0]
+    input_df.iloc[0],
+    matplotlib=True
 )
-
-# 显示在 Streamlit 页面，height 可调
-html(str(force_plot), height=400)
+st.pyplot(plt.gcf())
+plt.close()
