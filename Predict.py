@@ -58,14 +58,16 @@ if st.button("Make Prediction"):
             unsafe_allow_html=True
         )
 
-    # SHAP 解释（只在点击时执行）
-   shap.initjs()
-   force_plot = shap.force_plot(
-   explainer.expected_value[1] if isinstance(explainer.expected_value, (list, tuple)) else explainer.expected_value,
-   shap_values[0],
-   input_df.iloc[0]
-    )
-   html(force_plot.data, height=400)
+    # SHAP 解释（JS backend）
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(input_df)
 
-   # Display in Streamlit, adjustable height
-   html(str(force_plot), height=400)  # height 可调
+    shap.initjs()  # 初始化 JS backend
+    force_plot = shap.force_plot(
+        explainer.expected_value[1] if isinstance(explainer.expected_value, (list, tuple)) else explainer.expected_value,
+        shap_values[0],
+        input_df.iloc[0]
+    )
+
+    # 只用下面一行显示 JS force plot
+    html(force_plot.data, height=400)
