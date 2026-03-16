@@ -41,22 +41,29 @@ if st.button("Make Prediction"):
     probability = predicted_proba[1] * 100
 
     # Display single line
-st.markdown(
-    f"<p style='font-family:Source Serif; font-size:18px; font-weight:bold;'>Predicted possibility of early non-curative recurrence is {probability:.1f}%</p>",
-    unsafe_allow_html=True
-)
+if st.button("Make Prediction"):
+    # Predict probabilities
+    predicted_proba = model.predict_proba(input_df)[0]
 
-if probability >= 50:
+    # Assume class 1 = early non-curative recurrence
+    probability = predicted_proba[1] * 100
+
+    # Display single line
     st.markdown(
-        "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is high. Please consult a specialist for further evaluation.</p>",
-        unsafe_allow_html=True
-    )
-else:
-    st.markdown(
-        "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is low. Maintain regular check-ups and a healthy lifestyle.</p>",
+        f"<p style='font-family:Source Serif; font-size:18px; font-weight:bold;'>Predicted possibility of early non-curative recurrence is {probability:.1f}%</p>",
         unsafe_allow_html=True
     )
 
+    if probability >= 50:
+        st.markdown(
+            "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is high. Please consult a specialist for further evaluation.</p>",
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is low. Maintain regular check-ups and a healthy lifestyle.</p>",
+            unsafe_allow_html=True
+        )
 # SHAP 解释
 explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(input_df)
