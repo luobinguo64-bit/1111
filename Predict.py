@@ -68,13 +68,14 @@ if st.button("Make Prediction"):
     shap_values = explainer.shap_values(input_df)
 
     # 绘制 force_plot
-    plt.figure(figsize=(14, 20), dpi=150)  # 增大竖向高度
-    plt.rcParams.update({'font.size': 18})  # 字体大一些
+    plt.figure(figsize=(14, 30), dpi=150)  # 增大竖向高度
+    plt.rcParams.update({'font.size': 20})  # 字体大一些
     shap.force_plot(
     explainer.expected_value,
     shap_values[0],
     input_df.iloc[0],
-    matplotlib=True
+    matplotlib=True，
+    show=False
     )
 
     # 在 Streamlit 显示
