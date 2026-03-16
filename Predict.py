@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import shap
 import catboost as cb  # 确保使用 CatBoost 官方类
+from streamlit.components.v1 import html
 
 # Load the trained model
 model = joblib.load('Catboost.pkl')  # 如果报错，推荐使用 CatBoost 的 model.save_model/.load_model
