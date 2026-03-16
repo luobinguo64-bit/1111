@@ -71,4 +71,4 @@ shap.force_plot(
 
 # 显示在 Streamlit
 st.pyplot(plt.gcf())
-plt.close()  # 关闭 figure 避免内存累积
+
