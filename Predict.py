@@ -48,8 +48,6 @@ if st.button("Make Prediction"):
     else:
         st.write("The model indicates a lower risk. Maintain regular check-ups and a healthy lifestyle.")
 
-    st.write(advice)
-
     # SHAP explanation
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
