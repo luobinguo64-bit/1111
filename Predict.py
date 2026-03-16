@@ -59,16 +59,16 @@ if st.button("Make Prediction"):
         )
 
     # SHAP 解释（只在点击时执行）
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(input_df)
+   import shap
+from streamlit.components.v1 import html
 
-    shap.initjs()  # Initialize JS backend
-
-    force_plot = shap.force_plot(
-        explainer.expected_value[1] if isinstance(explainer.expected_value, (list, tuple)) else explainer.expected_value,
-        shap_values[0],
-        input_df.iloc[0]
-    )
+shap.initjs()
+force_plot = shap.force_plot(
+    explainer.expected_value[1] if isinstance(explainer.expected_value, (list, tuple)) else explainer.expected_value,
+    shap_values[0],
+    input_df.iloc[0]
+)
+html(force_plot.data, height=400)
 
     # Display in Streamlit, adjustable height
     html(str(force_plot), height=400)  # height 可调
