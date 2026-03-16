@@ -1,25 +1,8 @@
-import os
 import streamlit as st
 import joblib
 import pandas as pd
 import shap
 import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
-
-# =====================
-# 字体设置
-# =====================
-BASE_DIR = os.path.dirname(__file__)
-font_path = os.path.join(BASE_DIR, "fonts", "times.ttf")
-
-# 注册字体
-fm.fontManager.addfont(font_path)
-font_prop = fm.FontProperties(fname=font_path)
-
-# 设置全局字体
-plt.rcParams["font.family"] = font_prop.get_name()
-plt.rcParams["font.sans-serif"] = [font_prop.get_name()]
-plt.rcParams["axes.unicode_minus"] = False  # 避免负号显示为方块
 
 # =====================
 # 模型加载
@@ -53,7 +36,6 @@ st.header("Enter feature values")
 
 feature_values = {}
 
-# 输入组件
 for feature in feature_order:
     properties = feature_ranges[feature]
 
@@ -75,7 +57,6 @@ for feature in feature_order:
 # 预测与 SHAP
 # =====================
 if st.button("Predict"):
-    # 构造 DataFrame（保证顺序）
     input_df = pd.DataFrame([feature_values])[feature_order]
 
     # 预测概率
@@ -87,12 +68,11 @@ if st.button("Predict"):
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-    plt.figure()
-    plt.rcParams["font.family"] = font_prop.get_name()
-    plt.rcParams["font.sans-serif"] = [font_prop.get_name()]
+    # 设置 matplotlib 使用 Source Serif
+    plt.rcParams["font.family"] = "serif"
     plt.rcParams["axes.unicode_minus"] = False
 
-    # 使用 force_plot 显示单行数据
+    plt.figure(figsize=(8, 4))
     shap.force_plot(
         explainer.expected_value,
         shap_values[0],
@@ -100,5 +80,4 @@ if st.button("Predict"):
         matplotlib=True
     )
 
-    # 在 Streamlit 中显示
     st.pyplot(plt.gcf())
