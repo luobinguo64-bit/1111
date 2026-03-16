@@ -76,22 +76,20 @@ if st.button("Predict"):
     # =====================
     # SHAP 解释
     # =====================
+    input_df = pd.DataFrame([feature_values], columns=list(feature_ranges.keys()))
 
     explainer = shap.TreeExplainer(model)
 
     shap_values = explainer.shap_values(input_df)
 
-    st.subheader("SHAP explanation for this patient")
+    # force plot
+    fig = plt.figure()
 
-    # 生成 SHAP waterfall 图
-    fig = shap.plots.waterfall(
-        shap.Explanation(
-            values=shap_values[0],
-            base_values=explainer.expected_value,
-            data=input_df.iloc[0],
-            feature_names=input_df.columns
-        ),
-        show=False
-    )
+    shap.force_plot(
+    explainer.expected_value,
+    shap_values[0],
+    input_df,
+    matplotlib=True
+     )
 
     st.pyplot(fig)
