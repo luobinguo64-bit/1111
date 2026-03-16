@@ -68,14 +68,14 @@ if st.button("Make Prediction"):
     shap_values = explainer.shap_values(input_df)
 
     # 绘制 force_plot
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(14, 10))
     shap.force_plot(
-        explainer.expected_value,
-        shap_values[0],
-        input_df.iloc[0],
-        matplotlib=True
-    )
+    explainer.expected_value,
+    shap_values[0],
+    input_df.iloc[0],
+    matplotlib=True,
+     )
 
-    # 显示在 Streamlit
+    plt.rcParams.update({'font.size': 12})  # 全局字体调大
     st.pyplot(plt.gcf())
     plt.close()
