@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # =====================
 def custom_label(text, size=18, bold=False, font_family="Source Serif"):
     weight = "bold" if bold else "normal"
-    return f'<div style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}; margin-bottom:3px">{text}</div>'
+    return f'<div style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}; margin-bottom:1px">{text}</div>'
 
 # =====================
 # 模型加载
@@ -53,7 +53,7 @@ for feature in feature_order:
     display_name = feature_display_names[feature]
 
     # 标签紧贴输入框
-    st.markdown(custom_label(display_name, size=20, bold=True), unsafe_allow_html=True)
+    st.markdown(custom_label(display_name, size=20), unsafe_allow_html=True)
 
     # 数值或选项输入框
     if props["type"] == "numerical":
