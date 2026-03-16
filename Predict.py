@@ -56,19 +56,17 @@ if st.button("Make Prediction"):
             "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is low. Maintain regular check-ups and a healthy lifestyle.</p>",
             unsafe_allow_html=True
         )
-# SHAP 解释
-explainer = shap.TreeExplainer(model)
-shap_values = explainer.shap_values(input_df)
 
-# 绘制 force_plot
-plt.figure(figsize=(10, 8))
-shap.force_plot(
-    explainer.expected_value,
-    shap_values[0],
-    input_df.iloc[0],
-    matplotlib=True
-)
+    # SHAP 解释（只在点击时执行）
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(input_df)
 
-# 显示在 Streamlit
-st.pyplot(plt.gcf())
-
+    plt.figure(figsize=(10, 8))
+    shap.force_plot(
+        explainer.expected_value,
+        shap_values[0],
+        input_df.iloc[0],
+        matplotlib=True
+    )
+    st.pyplot(plt.gcf())
+    plt.close()
