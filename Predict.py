@@ -65,13 +65,17 @@ if st.button("Make Prediction"):
 
     # SHAP 解释
     explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(pd.DataFrame([feature_values], columns=feature_names))
+    shap_values = explainer.shap_values(input_df)
 
-    shap.force_plot(explainer.expected_value, shap_values[0], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)
-    plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
+    # 绘制 force_plot
+    plt.figure(figsize=(14, 10), dpi=1500)  # 调大图尺寸和清晰度
+    shap.force_plot(
+    explainer.expected_value,
+    shap_values[0],
+    input_df.iloc[0],
+    matplotlib=True
+    )
 
-    st.image("shap_force_plot.png")
-
-    plt.rcParams.update({'font.size': 14})  # 全局字体调大
+    # 在 Streamlit 显示
     st.pyplot(plt.gcf())
     plt.close()
