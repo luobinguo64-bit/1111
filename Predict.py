@@ -64,7 +64,7 @@ else:
     plt.rcParams["font.family"] = "Source Serif"
     plt.rcParams["axes.unicode_minus"] = False
 
-    plt.figure(figsize=(10, 4))
+    plt.figure(figsize=(10, 8))
     shap.force_plot(
         explainer.expected_value,
         shap_values[0],
