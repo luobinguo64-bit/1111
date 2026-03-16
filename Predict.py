@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 # =====================
 def custom_label(text, size=20, bold=False, font_family="Source Serif"):
     weight = "bold" if bold else "normal"
-    return f'<div style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}; margin-bottom:0px">{text}</div>'
+    # 加 class="custom-label" 用于 CSS 调整距离
+    return f'<div class="custom-label" style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}">{text}</div>'
 
 # =====================
 # 模型加载
@@ -37,6 +38,24 @@ feature_ranges = {
 }
 
 # =====================
+# 页面全局 CSS（调整标签和输入框间距）
+# =====================
+st.markdown(
+    """
+    <style>
+    div.custom-label {
+        margin-bottom: 2px;  /* 标签和输入框紧贴 */
+    }
+    div.stNumberInput, div.stSelectbox {
+        margin-top: 2px;     /* 控件上方间距 */
+        margin-bottom: 8px;  /* 控件下方间距 */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# =====================
 # 页面标题
 # =====================
 st.markdown(
@@ -53,7 +72,7 @@ for feature in feature_order:
     props = feature_ranges[feature]
     display_name = feature_display_names[feature]
 
-    # 自定义标签放在输入框上方
+    # 标签在输入框上方
     st.markdown(custom_label(display_name), unsafe_allow_html=True)
 
     # 输入框（不显示默认 label，也不显示范围）
@@ -62,7 +81,7 @@ for feature in feature_order:
             label="",  # 空 label
             value=float(props.get("default", 0)),
             key=feature,
-            format="%.2f",  # 可选，控制小数位
+            format="%.2f",
         )
     else:
         value = st.selectbox(
@@ -80,7 +99,11 @@ if st.button("Predict"):
     predicted_proba = model.predict_proba(input_df)[0][1]
 
     st.markdown(
-        custom_label(f"Predicted possibility of Non-curative recurrence: {predicted_proba*100:.2f}%", size=20, bold=True),
+        custom_label(
+            f"Predicted possibility of Non-curative recurrence: {predicted_proba*100:.2f}%",
+            size=20,
+            bold=True
+        ),
         unsafe_allow_html=True
     )
 
