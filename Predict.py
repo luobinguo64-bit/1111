@@ -21,12 +21,12 @@ feature_order = ["AFP", "Tumor_diameter", "MVI", "ALBI", "Liver_cirrhosis", "PLT
 
 # 每个特征对应的显示名称（可以随意修改）
 feature_display_names = {
-    "AFP": "Alpha-fetoprotein(ng/mL)",
+    "AFP": "Alpha-fetoprotein(AFP, ng/mL)",
     "Tumor_diameter": "Tumor Size (cm)",
-    "MVI": "Microvascular Invasion",
+    "MVI": "Microvascular Invasion(MVI)",
     "ALBI": "ALBI Score",
     "Liver_cirrhosis": "Liver Cirrhosis",
-    "PLT": "Platelet Count"
+    "PLT": "Platelet Count(PLT,×109/L )"
 }
 
 feature_ranges = {
@@ -52,7 +52,7 @@ for feature in feature_order:
     display_name = feature_display_names[feature]
 
     # 自定义标签显示
-    st.markdown(custom_label(display_name, size=20, bold=True), unsafe_allow_html=True)
+    st.markdown(custom_label(display_name, size=14), unsafe_allow_html=True)
 
     # 数值输入框或选项框
     if props["type"] == "numerical":
