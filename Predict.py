@@ -4,10 +4,11 @@ import pandas as pd
 import shap
 import matplotlib.pyplot as plt
 
-# 加载模型
-model = joblib.load("Catboost.pkl")
+font_path = "fonts/times.ttf"
+font_prop = fm.FontProperties(fname=font_path)
+plt.rcParams["font.family"] = font_prop.get_name()
 
-# 固定特征顺序（必须与训练时一致）
+model = joblib.load("Catboost.pkl")
 feature_order = [
     "AFP",
     "Tumor_diameter",
@@ -84,6 +85,7 @@ shap_values = explainer.shap_values(input_df)
 
 # 生成 SHAP 力图
 plt.figure()
+plt.rcParams["font.family"] = font_prop.get_name()
 
 shap.force_plot(
     explainer.expected_value,
