@@ -57,13 +57,6 @@ else:
         unsafe_allow_html=True
     )
 
-# 设置全局字体和大小
-plt.rcParams["font.family"] = "Source Serif"
-plt.rcParams["axes.unicode_minus"] = False
-plt.rcParams["font.size"] = 20
-plt.rcParams["xtick.labelsize"] = 18
-plt.rcParams["ytick.labelsize"] = 18
-
 # SHAP 解释
 explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(input_df)
