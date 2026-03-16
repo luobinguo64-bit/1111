@@ -81,5 +81,3 @@ if st.button("Predict"):
     plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
     st.image("shap_force_plot.png")
 
-st.write(input_df)
-st.write(prob)
