@@ -33,7 +33,6 @@ feature_ranges = {
 # 页面 UI
 # =====================
 custom_text("Prediction Model with SHAP Visualization", size=30, bold=True)
-custom_text("Enter feature values", size=22, bold=True)
 
 feature_values = {}
 for feature in feature_order:
