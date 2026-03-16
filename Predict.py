@@ -6,16 +6,26 @@ import shap
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
-
+# =====================
+# 字体设置
+# =====================
 BASE_DIR = os.path.dirname(__file__)
 font_path = os.path.join(BASE_DIR, "fonts", "times.ttf")
+
+# 注册字体
 fm.fontManager.addfont(font_path)
 font_prop = fm.FontProperties(fname=font_path)
+
+# 设置全局字体
 plt.rcParams["font.family"] = font_prop.get_name()
 plt.rcParams["font.sans-serif"] = [font_prop.get_name()]
-plt.rcParams["axes.unicode_minus"] = False 
+plt.rcParams["axes.unicode_minus"] = False  # 避免负号显示为方块
 
+# =====================
+# 模型加载
+# =====================
 model = joblib.load("Catboost.pkl")
+
 feature_order = [
     "AFP",
     "Tumor_diameter",
@@ -35,72 +45,60 @@ feature_ranges = {
     "PLT": {"type": "numerical", "min": 30, "max": 600, "default": 150},
 }
 
-# 页面标题
+# =====================
+# Streamlit 页面
+# =====================
 st.title("Prediction Model with SHAP Visualization")
-
 st.header("Enter feature values")
 
 feature_values = {}
 
 # 输入组件
 for feature in feature_order:
-
     properties = feature_ranges[feature]
 
     if properties["type"] == "numerical":
-
         value = st.number_input(
             label=f"{feature} ({properties['min']} - {properties['max']})",
             min_value=float(properties["min"]),
             max_value=float(properties["max"]),
             value=float(properties["default"]),
         )
-
     else:
-
         value = st.selectbox(
             label=f"{feature}",
             options=properties["options"],
         )
-
     feature_values[feature] = value
 
-
-# 预测按钮
+# =====================
+# 预测与 SHAP
+# =====================
 if st.button("Predict"):
-
-    # 转换为 DataFrame（保证特征顺序正确）
+    # 构造 DataFrame（保证顺序）
     input_df = pd.DataFrame([feature_values])[feature_order]
 
     # 预测概率
     predicted_proba = model.predict_proba(input_df)[0][1]
-
     probability = predicted_proba * 100
+    st.subheader(f"Predicted possibility of Non-curative recurrence: {probability:.2f}%")
 
-    st.subheader(
-        f"Predicted possibility of Non-curative recurrence: {probability:.2f}%"
+    # SHAP 解释
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(input_df)
+
+    plt.figure()
+    plt.rcParams["font.family"] = font_prop.get_name()
+    plt.rcParams["font.sans-serif"] = [font_prop.get_name()]
+    plt.rcParams["axes.unicode_minus"] = False
+
+    # 使用 force_plot 显示单行数据
+    shap.force_plot(
+        explainer.expected_value,
+        shap_values[0],
+        input_df.iloc[0],
+        matplotlib=True
     )
 
-    # =====================
-    # SHAP 解释
-    # =====================
-  # 计算 SHAP 值
-input_df = pd.DataFrame([feature_values], columns=feature_ranges.keys())
-
-explainer = shap.TreeExplainer(model)
-shap_values = explainer.shap_values(input_df)
-
-# 生成 SHAP 力图
-plt.figure()
-plt.rcParams["font.family"] = font_prop.get_name()
-
-shap.force_plot(
-    explainer.expected_value,
-    shap_values,
-    input_df,
-    matplotlib=True
-)
-
-# 保存并显示
-plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
-st.image("shap_force_plot.png")
+    # 在 Streamlit 中显示
+    st.pyplot(plt.gcf())
