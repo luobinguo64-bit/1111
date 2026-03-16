@@ -10,14 +10,11 @@ import catboost as cb  # 确保使用 CatBoost 官方类
 model = joblib.load('Catboost.pkl')  # 如果报错，推荐使用 CatBoost 的 model.save_model/.load_model
 
 # Streamlit UI
-st.markdown("<div style='margin-top:-20px'></div>", unsafe_allow_html=True)
 st.markdown("<h3 style='font-size:28px'>Early Non-curative Recurrence Predictor</h3>", unsafe_allow_html=True)# 早期非_CURATIVE复发预测器
 
 st.markdown("<div style='margin-top:50px'></div>", unsafe_allow_html=True)
 
 # Sidebar for input options
-st.sidebar.header("Input Sample Data")
-
 AFP = st.sidebar.number_input("Alpha-fetoprotein (AFP, ng/mL):", min_value=0.0, max_value=100000.0, value=20.0)  
 Tumor_diameter = st.sidebar.number_input("Tumor Diameter (cm):", min_value=0.1, max_value=25.0, value=3.0)  
 MVI = st.sidebar.selectbox("Microvascular Invasion (MVI):", options=[0, 1], format_func=lambda x: 'No (0)' if x == 0 else 'Yes (1)') 
