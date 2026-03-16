@@ -12,7 +12,7 @@ model = joblib.load('Catboost.pkl')  # 如果报错，推荐使用 CatBoost 的 
 # Streamlit UI
 st.markdown("<h3 style='font-size:28px'>Early Non-curative Recurrence Predictor</h3>", unsafe_allow_html=True)# 早期非_CURATIVE复发预测器
 
-st.markdown("<div style='margin-top:40px'></div>", unsafe_allow_html=True)
+st.markdown("<div style='margin-top:30px'></div>", unsafe_allow_html=True)
 
 # Sidebar for input options
 AFP = st.sidebar.number_input("Alpha-fetoprotein (AFP, ng/mL):", min_value=0.0, max_value=100000.0, value=20.0)  
@@ -41,7 +41,7 @@ if st.button("Make Prediction"):
     probability = predicted_proba[1] * 100
 
     # Display single line
-    st.markdown("<div style='margin-top:40px'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top:30px'></div>", unsafe_allow_html=True)
     
     st.markdown(
         f"<p style='font-family:Source Serif; font-size:18px; font-weight:bold;'>Predicted possibility of early non-curative recurrence is {probability:.1f}%</p>",
@@ -59,7 +59,7 @@ if st.button("Make Prediction"):
             unsafe_allow_html=True
         )
         
-    st.markdown("<div style='margin-top:40px'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top:60px'></div>", unsafe_allow_html=True)
 
     # SHAP 解释
     explainer = shap.TreeExplainer(model)
