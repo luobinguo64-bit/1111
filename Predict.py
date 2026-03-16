@@ -68,7 +68,8 @@ if st.button("Make Prediction"):
     shap_values = explainer.shap_values(input_df)
 
     # 绘制 force_plot
-    plt.figure(figsize=(14, 10), dpi=1500)  # 调大图尺寸和清晰度
+    plt.figure(figsize=(14, 15), dpi=150)  # 增大竖向高度
+    plt.rcParams.update({'font.size': 14})  # 字体大一些
     shap.force_plot(
     explainer.expected_value,
     shap_values[0],
