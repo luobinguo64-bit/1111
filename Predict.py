@@ -5,7 +5,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import shap
 import catboost as cb  # 确保使用 CatBoost 官方类
-from streamlit.components.v1 import html
 
 # Load the trained model
 model = joblib.load('Catboost.pkl')  # 如果报错，推荐使用 CatBoost 的 model.save_model/.load_model
@@ -58,16 +57,19 @@ if st.button("Make Prediction"):
             unsafe_allow_html=True
         )
 
-    # SHAP 解释（JS backend）
+    # SHAP 解释
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-    shap.initjs()  # 初始化 JS backend
-    force_plot = shap.force_plot(
-        explainer.expected_value[1] if isinstance(explainer.expected_value, (list, tuple)) else explainer.expected_value,
+    # 绘制 force_plot
+    plt.figure(figsize=(10, 8))
+    shap.force_plot(
+        explainer.expected_value,
         shap_values[0],
-        input_df.iloc[0]
+        input_df.iloc[0],
+        matplotlib=True
     )
 
-    # 只用下面一行显示 JS force plot
-    html(force_plot.data, height=400)
+    # 显示在 Streamlit
+    st.pyplot(plt.gcf())
+    plt.close()
