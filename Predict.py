@@ -3,6 +3,7 @@ import joblib
 import pandas as pd
 import shap
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 
 font_path = "fonts/times.ttf"
 font_prop = fm.FontProperties(fname=font_path)
