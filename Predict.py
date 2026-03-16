@@ -74,7 +74,7 @@ if st.button("Make Prediction"):
     explainer.expected_value,
     shap_values[0],
     input_df.iloc[0],
-    matplotlib=True，
+    matplotlib=True,
     show=False
     )
 
