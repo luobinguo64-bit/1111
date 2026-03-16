@@ -57,25 +57,26 @@ else:
         unsafe_allow_html=True
     )
 
-    # 设置全局字体
+# 设置全局字体和大小
 plt.rcParams["font.family"] = "Source Serif"
 plt.rcParams["axes.unicode_minus"] = False
-plt.rcParams["font.size"] = 14  # 调整字体大小
+plt.rcParams["font.size"] = 14
 plt.rcParams["xtick.labelsize"] = 12
 plt.rcParams["ytick.labelsize"] = 12
 
-    # SHAP explanation
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(input_df)
+# SHAP 解释
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(input_df)
 
-    plt.rcParams["font.family"] = "Source Serif"
-    plt.rcParams["axes.unicode_minus"] = False
+# 绘制 force_plot
+plt.figure(figsize=(10, 8))
+shap.force_plot(
+    explainer.expected_value,
+    shap_values[0],
+    input_df.iloc[0],
+    matplotlib=True
+)
 
-    plt.figure(figsize=(10, 8))
-    shap.force_plot(
-        explainer.expected_value,
-        shap_values[0],
-        input_df.iloc[0],
-        matplotlib=True
-    )
-    st.pyplot(plt.gcf())
+# 显示在 Streamlit
+st.pyplot(plt.gcf())
+plt.close()  # 关闭 figure 避免内存累积
