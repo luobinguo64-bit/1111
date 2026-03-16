@@ -51,24 +51,25 @@ st.markdown(
 # =====================
 feature_values = {}
 for feature in feature_order:
+    props = feature_ranges[feature]
     display_name = feature_display_names[feature]
-    col1, col2 = st.columns([1, 3])  # label 占 1，输入框占 3
-    with col1:
-        st.markdown(custom_label(display_name, size=20), unsafe_allow_html=True)
-    with col2:
-        if feature_ranges[feature]["type"] == "numerical":
-            value = st.number_input(
-                label="",
-                value=float(feature_ranges[feature]["default"]),
-                key=feature
-            )
-        else:
-            value = st.selectbox(
-                label="",
-                options=feature_ranges[feature]["options"],
-                key=feature
-            )
-        feature_values[feature] = value
+
+    # 标签在输入框上方
+    st.markdown(custom_label(display_name, size=20, bold=True), unsafe_allow_html=True)
+
+    if props["type"] == "numerical":
+        value = st.number_input(
+            label="",  # 不显示默认 label
+            value=float(props.get("default", 0)),
+            key=feature
+        )
+    else:
+        value = st.selectbox(
+            label="",
+            options=props["options"],
+            key=feature
+        )
+    feature_values[feature] = value
 
 # =====================
 # 预测 & SHAP
