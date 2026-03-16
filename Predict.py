@@ -61,7 +61,7 @@ if st.button("Make Prediction"):
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-    plt.figure(figsize=(15, 12))
+    plt.figure(figsize=(20, 8))
     shap.force_plot(
         explainer.expected_value,
         shap_values[0],
