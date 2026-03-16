@@ -58,22 +58,15 @@ if st.button("Make Prediction"):
         )
 
     # SHAP 解释（只在点击时执行）
-    import matplotlib.pyplot as plt
-    import shap
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(input_df)
 
-    # 设置全局字体
-    plt.rcParams["font.family"] = "Source Serif"
-    plt.rcParams["font.size"] = 14           # 图中文字大小
-    plt.rcParams["xtick.labelsize"] = 12     # x轴刻度字体大小
-    plt.rcParams["ytick.labelsize"] = 12     # y轴刻度字体大小
-
-    # 绘图
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(10, 8))
     shap.force_plot(
-    explainer.expected_value,
-    shap_values[0],
-    input_df.iloc[0],
-    matplotlib=True
+        explainer.expected_value,
+        shap_values[0],
+        input_df.iloc[0],
+        matplotlib=True
     )
     st.pyplot(plt.gcf())
     plt.close()
