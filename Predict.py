@@ -57,7 +57,7 @@ for feature in feature_order:
     # 数值输入框或选项框
     if props["type"] == "numerical":
         value = st.number_input(
-            label="",  # label 为空，用自定义 HTML
+            label=f"{display_name}",  
             min_value=float(props["min"]),
             max_value=float(props["max"]),
             value=float(props["default"]),
