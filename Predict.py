@@ -76,20 +76,22 @@ if st.button("Predict"):
     # =====================
     # SHAP 解释
     # =====================
-    input_df = pd.DataFrame([feature_values], columns=list(feature_ranges.keys()))
+  # 计算 SHAP 值
+input_df = pd.DataFrame([feature_values], columns=feature_ranges.keys())
 
-    explainer = shap.TreeExplainer(model)
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(input_df)
 
-    shap_values = explainer.shap_values(input_df)
+# 生成 SHAP 力图
+plt.figure()
 
-    # force plot
-    fig = plt.figure()
-
-    shap.force_plot(
+shap.force_plot(
     explainer.expected_value,
-    shap_values[0],
+    shap_values,
     input_df,
     matplotlib=True
-     )
+)
 
-    st.pyplot(fig)
+# 保存并显示
+plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
+st.image("shap_force_plot.png")
