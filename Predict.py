@@ -59,7 +59,7 @@ st.markdown(
 # 页面标题
 # =====================
 st.markdown(
-    '<div style="font-family:\'Source Serif Pro Semibold\'; font-size:32px; font-weight:bold; margin-bottom:10px">'
+    '<div style="font-family:\'Source Serif Pro Semibold\'; font-size:32px; font-weight:bold; margin-bottom:20px">'
     'Prediction Model with SHAP Visualization</div>',
     unsafe_allow_html=True
 )
