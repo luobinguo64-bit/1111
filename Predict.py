@@ -1,13 +1,3 @@
-import os
-import streamlit as st
-
-st.write("ROOT:", os.listdir())
-
-if os.path.exists("fonts"):
-    st.write("FONTS:", os.listdir("fonts"))
-else:
-    st.write("fonts folder NOT found")
-
 import streamlit as st
 import joblib
 import pandas as pd
@@ -15,9 +5,14 @@ import shap
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
-font_path = "fonts/times.ttf"
+
+BASE_DIR = os.path.dirname(__file__)
+font_path = os.path.join(BASE_DIR, "fonts", "times.ttf")
+fm.fontManager.addfont(font_path)
 font_prop = fm.FontProperties(fname=font_path)
 plt.rcParams["font.family"] = font_prop.get_name()
+plt.rcParams["font.sans-serif"] = [font_prop.get_name()]
+plt.rcParams["axes.unicode_minus"] = False 
 
 model = joblib.load("Catboost.pkl")
 feature_order = [
