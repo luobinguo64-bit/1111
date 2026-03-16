@@ -5,28 +5,30 @@ import shap
 import matplotlib.pyplot as plt
 
 # =====================
-# 页面自定义文字样式
+# 自定义文字显示函数
 # =====================
-def custom_text(text, size=18, bold=False, font_family="serif"):
-    """
-    显示自定义字体文字
-    - text: 要显示的文字
-    - size: 字号
-    - bold: 是否加粗
-    - font_family: 字体，例如 'Source Serif Pro Semibold'
-    """
+def custom_label(text, size=18, bold=False, font_family="Source Serif Pro Semibold"):
     weight = "bold" if bold else "normal"
-    st.markdown(
-        f'<span style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}">{text}</span>',
-        unsafe_allow_html=True
-    )
+    return f'<span style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}">{text}</span>'
 
 # =====================
 # 模型加载
 # =====================
 model = joblib.load("Catboost.pkl")
 
+# 内部特征名（不变，用于模型）
 feature_order = ["AFP", "Tumor_diameter", "MVI", "ALBI", "Liver_cirrhosis", "PLT"]
+
+# 每个特征对应的显示名称（可以随意修改）
+feature_display_names = {
+    "AFP": "Alpha-fetoprotein(ng/mL)",
+    "Tumor_diameter": "Tumor Size (cm)",
+    "MVI": "Microvascular Invasion",
+    "ALBI": "ALBI Score",
+    "Liver_cirrhosis": "Liver Cirrhosis",
+    "PLT": "Platelet Count"
+}
+
 feature_ranges = {
     "AFP": {"type": "numerical", "min": 0.0, "max": 1000000, "default": 20},
     "Tumor_diameter": {"type": "numerical", "min": 0, "max": 25, "default": 5},
@@ -37,23 +39,36 @@ feature_ranges = {
 }
 
 # =====================
-# 页面 UI
+# 页面标题
 # =====================
-# 大标题使用 Source Serif Pro Semibold
-custom_text("Prediction Model with SHAP Visualization", size=36, bold=True, font_family="Source Serif Pro Semibold")
+st.markdown(custom_label("Prediction Model with SHAP Visualization", size=30, bold=True), unsafe_allow_html=True)
 
+# =====================
+# 输入特征
+# =====================
 feature_values = {}
 for feature in feature_order:
     props = feature_ranges[feature]
+    display_name = feature_display_names[feature]
+
+    # 自定义标签显示
+    st.markdown(custom_label(display_name, size=20, bold=True), unsafe_allow_html=True)
+
+    # 数值输入框或选项框
     if props["type"] == "numerical":
         value = st.number_input(
-            label=f"{feature} ({props['min']} - {props['max']})",
+            label="",  # label 为空，用自定义 HTML
             min_value=float(props["min"]),
             max_value=float(props["max"]),
             value=float(props["default"]),
+            key=feature
         )
     else:
-        value = st.selectbox(label=f"{feature}", options=props["options"])
+        value = st.selectbox(
+            label="",  # label 为空
+            options=props["options"],
+            key=feature
+        )
     feature_values[feature] = value
 
 # =====================
@@ -63,19 +78,15 @@ if st.button("Predict"):
     input_df = pd.DataFrame([feature_values])[feature_order]
     predicted_proba = model.predict_proba(input_df)[0][1]
 
-    # 使用自定义字体显示预测结果
-    custom_text(
-        f"Predicted possibility of Non-curative recurrence: {predicted_proba*100:.2f}%",
-        size=20,
-        bold=True,
-        font_family="Source Serif Pro Semibold"
+    st.markdown(
+        custom_label(f"Predicted possibility of Non-curative recurrence: {predicted_proba*100:.2f}%", size=20, bold=True),
+        unsafe_allow_html=True
     )
 
-    # SHAP 解释
+    # SHAP
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-    # Matplotlib 图表字体
     plt.rcParams["font.family"] = "Source Serif Pro Semibold"
     plt.rcParams["axes.unicode_minus"] = False
 
@@ -86,5 +97,4 @@ if st.button("Predict"):
         input_df.iloc[0],
         matplotlib=True
     )
-
     st.pyplot(plt.gcf())
