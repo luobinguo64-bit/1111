@@ -4,29 +4,22 @@ import pandas as pd
 import shap
 import matplotlib.pyplot as plt
 
-st.markdown(
-    """
-    <style>
-    html, body, [class*="css"]  {
-        font-family: 'serif';
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# =====================
+# 页面自定义文字样式
+# =====================
+def custom_text(text, size=18, bold=False):
+    weight = "bold" if bold else "normal"
+    st.markdown(
+        f'<span style="font-family:serif; font-size:{size}px; font-weight:{weight}">{text}</span>',
+        unsafe_allow_html=True
+    )
 
+# =====================
+# 模型加载
+# =====================
 model = joblib.load("Catboost.pkl")
 
-feature_order = [
-    "AFP",
-    "Tumor_diameter",
-    "MVI",
-    "ALBI",
-    "Liver_cirrhosis",
-    "PLT"
-]
-
-# 特征范围
+feature_order = ["AFP", "Tumor_diameter", "MVI", "ALBI", "Liver_cirrhosis", "PLT"]
 feature_ranges = {
     "AFP": {"type": "numerical", "min": 0.0, "max": 1000000, "default": 20},
     "Tumor_diameter": {"type": "numerical", "min": 0, "max": 25, "default": 5},
@@ -37,46 +30,38 @@ feature_ranges = {
 }
 
 # =====================
-# Streamlit 页面
+# 页面 UI
 # =====================
-st.title("Prediction Model with SHAP Visualization")
-st.header("Enter feature values")
+custom_text("Prediction Model with SHAP Visualization", size=30, bold=True)
+custom_text("Enter feature values", size=22, bold=True)
 
 feature_values = {}
-
 for feature in feature_order:
-    properties = feature_ranges[feature]
-
-    if properties["type"] == "numerical":
+    props = feature_ranges[feature]
+    if props["type"] == "numerical":
         value = st.number_input(
-            label=f"{feature} ({properties['min']} - {properties['max']})",
-            min_value=float(properties["min"]),
-            max_value=float(properties["max"]),
-            value=float(properties["default"]),
+            label=f"{feature} ({props['min']} - {props['max']})",
+            min_value=float(props["min"]),
+            max_value=float(props["max"]),
+            value=float(props["default"]),
         )
     else:
-        value = st.selectbox(
-            label=f"{feature}",
-            options=properties["options"],
-        )
+        value = st.selectbox(label=f"{feature}", options=props["options"])
     feature_values[feature] = value
 
 # =====================
-# 预测与 SHAP
+# 预测 & SHAP
 # =====================
 if st.button("Predict"):
     input_df = pd.DataFrame([feature_values])[feature_order]
-
-    # 预测概率
     predicted_proba = model.predict_proba(input_df)[0][1]
-    probability = predicted_proba * 100
-    st.subheader(f"Predicted possibility of Non-curative recurrence: {probability:.2f}%")
+    custom_text(f"Predicted possibility of Non-curative recurrence: {predicted_proba*100:.2f}%", size=20, bold=True)
 
     # SHAP 解释
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-    # 设置 matplotlib 使用 Source Serif
+    # Matplotlib 图表字体
     plt.rcParams["font.family"] = "serif"
     plt.rcParams["axes.unicode_minus"] = False
 
