@@ -44,9 +44,9 @@ if st.button("Make Prediction"):
     st.write(f"Predicted possibility of early non-curative recurrence is {probability:.1f}%")
 
     if probability >= 50:
-        st.write("The model indicates a higher risk. Please consult a specialist for further evaluation.")
+        st.write("According to our model, your risk of early non-curative recurrence is high. Please consult a specialist for further evaluation.")
     else:
-        st.write("The model indicates a lower risk. Maintain regular check-ups and a healthy lifestyle.")
+        st.write("According to our model, your risk of early non-curative recurrence is low. Maintain regular check-ups and a healthy lifestyle.")
 
     # SHAP explanation
     explainer = shap.TreeExplainer(model)
