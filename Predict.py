@@ -41,17 +41,17 @@ if st.button("Make Prediction"):
     probability = predicted_proba[1] * 100
 
     # Display single line
-    st.markdown(
-    f"<p style='font-family:Source Serif; font-size:18px;font-weight:bold;'>Predicted possibility of early non-curative recurrence is <strong>{probability:.1f}%</strong></p>",
+st.markdown(
+    f"<p style='font-family:Source Serif; font-size:18px; font-weight:bold;'>Predicted possibility of early non-curative recurrence is {probability:.1f}%</p>",
     unsafe_allow_html=True
-    )
+)
 
-    if probability >= 50:
+if probability >= 50:
     st.markdown(
         "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is high. Please consult a specialist for further evaluation.</p>",
         unsafe_allow_html=True
     )
-    else:
+else:
     st.markdown(
         "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is low. Maintain regular check-ups and a healthy lifestyle.</p>",
         unsafe_allow_html=True
