@@ -61,12 +61,13 @@ if st.button("Make Prediction"):
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-    plt.figure(figsize=(10, 8))
-    shap.force_plot(
-        explainer.expected_value,
+    shap.initjs()  # Initialize JS backend
+
+    force_plot = shap.force_plot(
+        explainer.expected_value[1] if isinstance(explainer.expected_value, (list, tuple)) else explainer.expected_value,
         shap_values[0],
-        input_df.iloc[0],
-        matplotlib=True
+        input_df.iloc[0]
     )
-    st.pyplot(plt.gcf())
-    plt.close()
+
+    # Display in Streamlit, adjustable height
+    html(str(force_plot), height=400)  # height 可调
