@@ -68,7 +68,7 @@ if st.button("Make Prediction"):
     shap_values = explainer.shap_values(input_df)
 
     # 绘制 force_plot
-    plt.figure(figsize=(14, 10))
+    plt.figure(figsize=(18, 12))
     shap.force_plot(
     explainer.expected_value,
     shap_values[0],
@@ -76,6 +76,6 @@ if st.button("Make Prediction"):
     matplotlib=True,
      )
 
-    plt.rcParams.update({'font.size': 12})  # 全局字体调大
+    plt.rcParams.update({'font.size': 14})  # 全局字体调大
     st.pyplot(plt.gcf())
     plt.close()
