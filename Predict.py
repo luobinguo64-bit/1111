@@ -1,3 +1,13 @@
+import os
+import streamlit as st
+
+st.write("ROOT:", os.listdir())
+
+if os.path.exists("fonts"):
+    st.write("FONTS:", os.listdir("fonts"))
+else:
+    st.write("fonts folder NOT found")
+
 import streamlit as st
 import joblib
 import pandas as pd
