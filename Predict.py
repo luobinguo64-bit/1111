@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 # =====================
 # 自定义标签样式函数
 # =====================
-def custom_label(text, size=20, bold=False, font_family="Source Serif"):
+def custom_label(text, size=18, bold=False, font_family="Source Serif"):
     weight = "bold" if bold else "normal"
     # 加 class="custom-label" 用于 CSS 调整距离
     return f'<div class="custom-label" style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}">{text}</div>'
