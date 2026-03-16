@@ -46,6 +46,8 @@ if st.button("Make Prediction"):
         unsafe_allow_html=True
     )
 
+    st.markdown("<div style='margin-top:20px'></div>", unsafe_allow_html=True)
+    
     if probability >= 50:
         st.markdown(
             "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is high. Please consult a specialist for further evaluation.</p>",
@@ -56,6 +58,8 @@ if st.button("Make Prediction"):
             "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is low. Maintain regular check-ups and a healthy lifestyle.</p>",
             unsafe_allow_html=True
         )
+        
+    st.markdown("<div style='margin-top:40px'></div>", unsafe_allow_html=True)
 
     # SHAP 解释
     explainer = shap.TreeExplainer(model)
