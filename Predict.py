@@ -7,10 +7,17 @@ import matplotlib.pyplot as plt
 # =====================
 # 页面自定义文字样式
 # =====================
-def custom_text(text, size=18, bold=False):
+def custom_text(text, size=18, bold=False, font_family="serif"):
+    """
+    显示自定义字体文字
+    - text: 要显示的文字
+    - size: 字号
+    - bold: 是否加粗
+    - font_family: 字体，例如 'Source Serif Pro Semibold'
+    """
     weight = "bold" if bold else "normal"
     st.markdown(
-        f'<span style="font-family:serif; font-size:{size}px; font-weight:{weight}">{text}</span>',
+        f'<span style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}">{text}</span>',
         unsafe_allow_html=True
     )
 
@@ -32,7 +39,8 @@ feature_ranges = {
 # =====================
 # 页面 UI
 # =====================
-custom_text("Prediction Model with SHAP Visualization", size=30, bold=True)
+# 大标题使用 Source Serif Pro Semibold
+custom_text("Prediction Model with SHAP Visualization", size=36, bold=True, font_family="Source Serif Pro Semibold")
 
 feature_values = {}
 for feature in feature_order:
@@ -54,14 +62,21 @@ for feature in feature_order:
 if st.button("Predict"):
     input_df = pd.DataFrame([feature_values])[feature_order]
     predicted_proba = model.predict_proba(input_df)[0][1]
-    custom_text(f"Predicted possibility of Non-curative recurrence: {predicted_proba*100:.2f}%", size=20, bold=True)
+
+    # 使用自定义字体显示预测结果
+    custom_text(
+        f"Predicted possibility of Non-curative recurrence: {predicted_proba*100:.2f}%",
+        size=20,
+        bold=True,
+        font_family="Source Serif Pro Semibold"
+    )
 
     # SHAP 解释
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
     # Matplotlib 图表字体
-    plt.rcParams["font.family"] = "serif"
+    plt.rcParams["font.family"] = "Source Serif Pro Semibold"
     plt.rcParams["axes.unicode_minus"] = False
 
     plt.figure(figsize=(8, 4))
