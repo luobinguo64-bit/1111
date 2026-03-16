@@ -10,6 +10,7 @@ import catboost as cb  # 确保使用 CatBoost 官方类
 model = joblib.load('Catboost.pkl')  # 如果报错，推荐使用 CatBoost 的 model.save_model/.load_model
 
 # Streamlit UI
+st.markdown("<div style='margin-top:0px'></div>", unsafe_allow_html=True)
 st.markdown("<h3 style='font-size:28px'>Early Non-curative Recurrence Predictor</h3>", unsafe_allow_html=True)# 早期非_CURATIVE复发预测器
 
 st.markdown("<div style='margin-top:50px'></div>", unsafe_allow_html=True)
