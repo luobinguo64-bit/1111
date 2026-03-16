@@ -1,4 +1,4 @@
-import OS
+import os
 import streamlit as st
 import joblib
 import pandas as pd
