@@ -47,7 +47,7 @@ st.markdown(
         margin-bottom: 3px;  /* 标签和输入框紧贴 */
     }
     div.stNumberInput, div.stSelectbox {
-        margin-top: 2px;     /* 控件上方间距 */
+        margin-top: 1px;     /* 控件上方间距 */
         margin-bottom: 5px;  /* 控件下方间距 */
     }
     </style>
