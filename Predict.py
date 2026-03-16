@@ -65,16 +65,12 @@ if st.button("Make Prediction"):
 
     # SHAP 解释
     explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(input_df)
+    shap_values = explainer.shap_values(pd.DataFrame([feature_values], columns=feature_names))
 
-    # 绘制 force_plot
-    plt.figure(figsize=(18, 12))
-    shap.force_plot(
-    explainer.expected_value,
-    shap_values[0],
-    input_df.iloc[0],
-    matplotlib=True,
-     )
+    shap.force_plot(explainer.expected_value, shap_values[0], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)
+    plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
+
+    st.image("shap_force_plot.png")
 
     plt.rcParams.update({'font.size': 14})  # 全局字体调大
     st.pyplot(plt.gcf())
