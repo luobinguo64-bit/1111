@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # =====================
 def custom_label(text, size=18, bold=False, font_family="Source Serif"):
     weight = "bold" if bold else "normal"
-    return f'<div style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}; margin-bottom:-3px">{text}</div>'
+    return f'<div style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}; margin-bottom:-5px">{text}</div>'
 
 # =====================
 # 模型加载
