@@ -62,7 +62,7 @@ if st.button("Make Prediction"):
     shap_values = explainer.shap_values(input_df)
 
     plt.figure(figsize=(10, 10))
-    plt.subplots_adjust(bottom=0.2) 
+    plt.subplots_adjust(bottom=0.15, top=0.95)
     
     shap.force_plot(
         explainer.expected_value,
