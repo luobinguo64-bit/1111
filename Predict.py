@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 # =====================
 # 自定义标签样式函数
 # =====================
-def custom_label(text, size=20, bold=True, font_family="Source Serif"):
+def custom_label(text, size=20, font_family="Source Serif"):
     weight = "bold" if bold else "normal"
     return f'<div style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}; margin-bottom:0px">{text}</div>'
 
