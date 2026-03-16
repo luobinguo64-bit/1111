@@ -9,8 +9,7 @@ import matplotlib.pyplot as plt
 # =====================
 def custom_label(text, size=20, bold=True, font_family="Source Serif"):
     weight = "bold" if bold else "normal"
-    # 设置 margin-bottom:2px 让输入框紧贴标签
-    return f'<div style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}; margin-bottom:2px">{text}</div>'
+    return f'<div style="font-family:\'{font_family}\'; font-size:{size}px; font-weight:{weight}; margin-bottom:0px">{text}</div>'
 
 # =====================
 # 模型加载
