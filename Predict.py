@@ -5,7 +5,7 @@ import shap
 import matplotlib.pyplot as plt
 
 # =====================
-# 自定义标签样式函数
+# 自定义标签函数（紧贴输入框）
 # =====================
 def custom_label(text, size=18, bold=False, font_family="Source Serif"):
     weight = "bold" if bold else "normal"
@@ -52,19 +52,17 @@ for feature in feature_order:
     props = feature_ranges[feature]
     display_name = feature_display_names[feature]
 
-    # 标签紧贴输入框
-    st.markdown(custom_label(display_name, size=20), unsafe_allow_html=True)
-
-    # 数值或选项输入框
+    # 紧贴输入框显示名称
     if props["type"] == "numerical":
         value = st.number_input(
-            label="",  # label 为空，用自定义 HTML
+            label=custom_label(display_name, size=20),  # label 直接用 HTML
             value=float(props.get("default", 0)),
-            key=feature
+            key=feature,
+            format="%.2f"  # 数值保留两位
         )
     else:
         value = st.selectbox(
-            label="",
+            label=custom_label(display_name, size=20),
             options=props["options"],
             key=feature
         )
