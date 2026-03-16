@@ -13,8 +13,8 @@ st.title("Early Non-curative Recurrence Predictor")  # 早期非_CURATIVE复发�
 # Sidebar for input options
 st.sidebar.header("Input Sample Data")  # 侧边栏输入样本数据
 
-AFP = st.sidebar.number_input("Alpha-fetoprotein (AFP, ng/mL):", min_value=0, max_value=100000, value=20)  
-Tumor_diameter = st.sidebar.number_input("Tumor Diameter (cm):", min_value=0.1, max_value=25, value=3)  
+AFP = st.sidebar.number_input("Alpha-fetoprotein (AFP, ng/mL):", min_value=0.0, max_value=100000.0, value=20.0)  
+Tumor_diameter = st.sidebar.number_input("Tumor Diameter (cm):", min_value=0.1, max_value=25.0, value=3.0)  
 MVI = st.sidebar.selectbox("Microvascular Invasion (MVI):", options=[0, 1], format_func=lambda x: 'No (0)' if x == 0 else 'Yes (1)') 
 ALBI = st.sidebar.number_input("ALBI Score:", min_value=-4, max_value=0, value=-2.6)  
 Liver_cirrhosis = st.sidebar.selectbox("Liver Cirrhosis:", options=[0, 1], format_func=lambda x: 'No (0)' if x == 0 else 'Yes (1)') 
