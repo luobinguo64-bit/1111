@@ -41,14 +41,6 @@ if st.button("Make Prediction"):
     probability = predicted_proba[1] * 100
 
     # Display single line
-if st.button("Make Prediction"):
-    # Predict probabilities
-    predicted_proba = model.predict_proba(input_df)[0]
-
-    # Assume class 1 = early non-curative recurrence
-    probability = predicted_proba[1] * 100
-
-    # Display single line
     st.markdown(
         f"<p style='font-family:Source Serif; font-size:18px; font-weight:bold;'>Predicted possibility of early non-curative recurrence is {probability:.1f}%</p>",
         unsafe_allow_html=True
