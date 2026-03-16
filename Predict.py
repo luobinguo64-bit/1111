@@ -34,13 +34,14 @@ input_dict = {
 input_df = pd.DataFrame(input_dict)
 
 if st.button("Make Prediction"):
-    # Predict
-    predicted_class = model.predict(input_df)[0]
+    # Predict probabilities
     predicted_proba = model.predict_proba(input_df)[0]
 
-    # Display prediction
-    st.write(f"**Predicted Class:** {predicted_class}")
-    st.write(f"**Prediction Probabilities:** {predicted_proba}")
+    # Assume class 1 = early non-curative recurrence
+    probability = predicted_proba[1] * 100
+
+    # Display single line
+    st.write(f"Predicted possibility of early non-curative recurrence is {probability:.1f}%")
 
     # Get probability for the predicted class safely
     if predicted_class == 1:
