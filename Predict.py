@@ -65,20 +65,21 @@ if st.button("Make Prediction"):
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-        shap_display_df = input_df.rename(columns={
+    # 创建显示用 DataFrame，改列名美化
+    shap_display_df = input_df.rename(columns={
         "Liver_cirrhosis": "Liver cirrhosis",
         "Tumor_diameter": "Tumor size"
     })
 
     # 绘制 force_plot
-    plt.figure(figsize=(14, 30), dpi=1000)  # 增大竖向高度
+    plt.figure(figsize=(14, 30), dpi=150)  # 增大竖向高度
     plt.rcParams.update({'font.size': 20})  # 字体大一些
     shap.force_plot(
-    explainer.expected_value,
-    shap_values[0],
-    input_df.iloc[0],
-    matplotlib=True,
-    show=False
+        explainer.expected_value,
+        shap_values[0],
+        shap_display_df.iloc[0],  # 使用美化列名显示
+        matplotlib=True,
+        show=False
     )
 
     # 在 Streamlit 显示
