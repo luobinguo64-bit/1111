@@ -16,7 +16,7 @@ st.markdown("<div style='margin-top:30px'></div>", unsafe_allow_html=True)
 
 # Sidebar for input options
 AFP = st.sidebar.number_input("Alpha-fetoprotein (AFP, ng/mL):", min_value=0.0, max_value=100000.0, value=20.0)  
-Tumor_diameter = st.sidebar.number_input("Tumor Diameter (cm):", min_value=0.1, max_value=25.0, value=3.0)  
+Tumor_diameter = st.sidebar.number_input("Tumor Size (cm):", min_value=0.1, max_value=25.0, value=3.0)  
 MVI = st.sidebar.selectbox("Microvascular Invasion (MVI):", options=[0, 1], format_func=lambda x: 'No (0)' if x == 0 else 'Yes (1)') 
 ALBI = st.sidebar.number_input("ALBI Score:", min_value=-4.0, max_value=0.0, value=-2.6)  
 Liver_cirrhosis = st.sidebar.selectbox("Liver Cirrhosis:", options=[0, 1], format_func=lambda x: 'No (0)' if x == 0 else 'Yes (1)') 
@@ -25,10 +25,10 @@ PLT = st.sidebar.number_input("Platelet Count (PLT, ×10^9/mL):", min_value=30, 
 # Create a DataFrame for SHAP and prediction
 input_dict = {
     "AFP": [AFP],
-    "Tumor_diameter": [Tumor_diameter],
+    "Tumor Size": [Tumor_diameter],
     "MVI": [MVI],
     "ALBI": [ALBI],
-    "Liver_cirrhosis": [Liver_cirrhosis],
+    "Liver cirrhosis": [Liver_cirrhosis],
     "PLT": [PLT]
 }
 input_df = pd.DataFrame(input_dict)
