@@ -4,9 +4,17 @@ import pandas as pd
 import shap
 import matplotlib.pyplot as plt
 
-# =====================
-# 模型加载
-# =====================
+st.markdown(
+    """
+    <style>
+    html, body, [class*="css"]  {
+        font-family: 'serif';
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 model = joblib.load("Catboost.pkl")
 
 feature_order = [
