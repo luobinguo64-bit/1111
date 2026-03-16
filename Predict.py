@@ -43,19 +43,10 @@ if st.button("Make Prediction"):
     # Display single line
     st.write(f"Predicted possibility of early non-curative recurrence is {probability:.1f}%")
 
-    # Get probability for the predicted class safely
-    if predicted_class == 1:
-        probability = predicted_proba[1] * 100
-        advice = (
-            f"According to our model, your risk of early non-curative recurrence is high. "
-            f"The probability is {probability:.1f}%. Please consult a specialist for further evaluation."
-        )
+    if probability >= 50:
+        st.write("The model indicates a higher risk. Please consult a specialist for further evaluation.")
     else:
-        probability = predicted_proba[0] * 100
-        advice = (
-            f"According to our model, your risk of early non-curative recurrence is low. "
-            f"The probability is {probability:.1f}%. Maintain regular check-ups and a healthy lifestyle."
-        )
+        st.write("The model indicates a lower risk. Maintain regular check-ups and a healthy lifestyle.")
 
     st.write(advice)
 
