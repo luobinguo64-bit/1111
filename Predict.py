@@ -59,7 +59,7 @@ if st.button("Make Prediction"):
             unsafe_allow_html=True
         )
         
-    st.markdown("<div style='margin-top:50px'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top:30px'></div>", unsafe_allow_html=True)
 
     # SHAP 解释
     explainer = shap.TreeExplainer(model)
