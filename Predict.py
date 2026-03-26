@@ -4,17 +4,16 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import shap
-import catboost as cb  # 确保使用 CatBoost 官方类
+import catboost as cb 
 
-# Load the trained model
-model = joblib.load('Catboost.pkl')  # 如果报错，推荐使用 CatBoost 的 model.save_model/.load_model
 
-# Streamlit UI
-st.markdown("<h3 style='font-size:28px'>Early Non-curative Recurrence Predictor after Liver Resection</h3>", unsafe_allow_html=True)# 早期非_CURATIVE复发预测器
+model = joblib.load('CatBoost.pkl')  
+
+st.markdown("<h3 style='font-size:28px'>Early Non-curative Recurrence Predictor after Liver Resection</h3>", unsafe_allow_html=True)
 
 st.markdown("<div style='margin-top:30px'></div>", unsafe_allow_html=True)
 
-# Sidebar for input options
+
 AFP = st.sidebar.number_input("Alpha-fetoprotein (AFP, ng/mL):", min_value=0.0, max_value=100000.0, value=20.0)  
 Tumor_diameter = st.sidebar.number_input("Tumor Size (cm):", min_value=0.1, max_value=25.0, value=3.0)  
 MVI = st.sidebar.selectbox("Microvascular Invasion (MVI):", options=[0, 1], format_func=lambda x: 'No (0)' if x == 0 else 'Yes (1)') 
@@ -22,7 +21,6 @@ ALBI = st.sidebar.number_input("ALBI Score:", min_value=-4.0, max_value=0.0, val
 Liver_cirrhosis = st.sidebar.selectbox("Liver Cirrhosis:", options=[0, 1], format_func=lambda x: 'No (0)' if x == 0 else 'Yes (1)') 
 PLT = st.sidebar.number_input("Platelet Count (PLT, ×10^9/mL):", min_value=30, max_value=600, value=150) 
 
-# Create a DataFrame for SHAP and prediction
 input_dict = {
     "AFP": [AFP],
     "Tumor_diameter": [Tumor_diameter],
@@ -61,27 +59,23 @@ if st.button("Make Prediction"):
         
     st.markdown("<div style='margin-top:40px'></div>", unsafe_allow_html=True)
 
-    # SHAP 解释
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-    # 创建显示用 DataFrame，改列名美化
     shap_display_df = input_df.rename(columns={
         "Liver_cirrhosis": "Liver cirrhosis",
         "Tumor_diameter": "Tumor size"
     })
 
-    # 绘制 force_plot
-    plt.figure(figsize=(14, 30), dpi=150)  # 增大竖向高度
-    plt.rcParams.update({'font.size': 20})  # 字体大一些
+    plt.figure(figsize=(14, 30), dpi=150)  
+    plt.rcParams.update({'font.size': 20})  
     shap.force_plot(
         explainer.expected_value,
         shap_values[0],
-        shap_display_df.iloc[0],  # 使用美化列名显示
+        shap_display_df.iloc[0],  
         matplotlib=True,
         show=False
     )
 
-    # 在 Streamlit 显示
     st.pyplot(plt.gcf())
     plt.close()
