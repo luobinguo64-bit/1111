@@ -7,7 +7,8 @@ import shap
 import catboost as cb 
 
 
-model = joblib.load('CatBoost.pkl')  
+loaded = joblib.load('Catboost.pkl')
+model = loaded["model"] 
 
 st.markdown("<h3 style='font-size:28px'>Early Non-curative Recurrence Predictor after Liver Resection</h3>", unsafe_allow_html=True)
 
