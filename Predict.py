@@ -48,14 +48,14 @@ if st.button("Make Prediction"):
         unsafe_allow_html=True
     )
 
-    if probability >= 50:
+    if probability >= 20:
         st.markdown(
-            "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is high. Please consult a specialist for further evaluation.</p>",
+            "<p style='font-family:Source Serif; font-size:18px;'>According to our model, you are at high risk of early non-curative recurrence. This type of recurrence is typically associated with limited eligibility for curative treatments and poorer post-recurrence outcomes. Early multidisciplinary evaluation and consideration of intensified surveillance or adjuvant strategies may be warranted.</p>",
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            "<p style='font-family:Source Serif; font-size:18px;'>According to our model, your risk of early non-curative recurrence is low. Maintain regular check-ups and a healthy lifestyle.</p>",
+            "<p style='font-family:Source Serif; font-size:18px;'>According to our model, you are at low risk of early non-curative recurrence. Patients in this group are more likely to remain eligible for curative treatment options if recurrence occurs. Standard postoperative surveillance is recommended.</p>",
             unsafe_allow_html=True
         )
         
